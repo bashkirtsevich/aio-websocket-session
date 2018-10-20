@@ -6,7 +6,7 @@ import aiohttp.web
 
 from protocol import MSG_OPEN, MSG_MESSAGE, MSG_CLOSED
 from session_manager import SessionManager
-from transport import WebSocketServer
+from transport import WebSocketServerHLEB
 
 
 async def chat_msg_handler(msg, session):
@@ -21,7 +21,7 @@ async def chat_msg_handler(msg, session):
 async def websocket(manager, request):
     session = manager.get(str(uuid.uuid4()), True)
 
-    transport = WebSocketServer(manager, session, request)
+    transport = WebSocketServerHLEB(manager, session, request)
     try:
         return await transport.process()
     except asyncio.CancelledError:
